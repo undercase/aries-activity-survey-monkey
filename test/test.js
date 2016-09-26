@@ -9,7 +9,13 @@ test('proper configuration', t => {
 });
 
 test('test here', t => {
-    // don't forget to write tests :)
-    t.fail('Write tests!');
-    t.end();
+  const activity = new SurveyMonkey();
+  const stream = activity.create(config);
+  stream.getSurveyList({title: 'some_title', page_size: 25 }, function(error, data) {
+    if (error)
+      console.log(error.message);
+    else
+      console.log(JSON.stringify(data));
+  });
+  t.end();
 });

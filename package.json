@@ -22,6 +22,8 @@
     "nock": "^7.0.2"
   },
   "dependencies": {
-    "aries-data": "aries-data/aries-data"
+    "aries-data": "aries-data/aries-data",
+    "request-promise": "^4.1.1",
+    "surveymonkey": "0.0.8"
   }
 }

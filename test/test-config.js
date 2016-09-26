@@ -1,6 +1,8 @@
 const config = {
   apiKey: process.env.API_KEY,
-  secretKey: process.env.SECRET
+  accessToken: process.env.SECRET,
+  version: 'v2',
+  secure: false
 };
 
 export default config;
