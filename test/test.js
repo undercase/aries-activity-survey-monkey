@@ -1,6 +1,7 @@
 import test from 'blue-tape';
 import SurveyMonkey from '../lib/index.js';
 import config from './test-config.js';
+import fs from 'fs';
 
 test('proper configuration', t => {
     t.equal(SurveyMonkey.props.name, require('../package.json').name);
@@ -8,14 +9,13 @@ test('proper configuration', t => {
     t.end();
 });
 
-test('test here', t => {
+test('test surveys', async t => {
   const activity = new SurveyMonkey();
-  const stream = activity.create(config);
-  stream.getSurveyList({title: 'some_title', page_size: 25 }, function(error, data) {
-    if (error)
-      console.log(error.message);
-    else
-      console.log(JSON.stringify(data));
+  const surveysStream = await activity.requestSurveys(config);
+  surveysStream.on('data', (chunk) => {
+    fs.appendFile('output.txt', chunk);
   });
-  t.end();
+  surveysStream.on('error', (error) => {
+    fs.appendFile('output.txt', error);
+  });
 });
