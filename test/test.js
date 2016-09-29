@@ -13,9 +13,18 @@ test('test surveys', async t => {
   const activity = new SurveyMonkey();
   const surveysStream = await activity.requestSurveys(config);
   surveysStream.on('data', (chunk) => {
-    fs.appendFile('output.txt', chunk);
+    t.comment(chunk);
   });
   surveysStream.on('error', (error) => {
-    fs.appendFile('output.txt', error);
+    t.fail(error);
   });
+  surveysStream.on('end', () => {
+    t.comment('Completed streaming surveys');
+  });
+});
+
+test('test questions', async t => {
+  const activity = new SurveyMonkey();
+  const questionsStream = await activity.requestDetails(Object.assign(config, { survey_id: "85519823" }));
+  t.equal(questionsStream.data.question_count, 1, "Assert survey with proper number of questions was retrieved.");
 });
